@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import paragraphs from './data';
+import { nanoid } from 'nanoid';
+import data from './data';
 
 // my version
 const App = () => {
@@ -8,18 +9,22 @@ const App = () => {
 
   const handleText = (e) => {
     e.preventDefault();
-    setText(paragraphs.slice(0, count));
+    // number input is a string
+    console.log(typeof count, count); // string
+    const amount = parseInt(count);
+    console.log(typeof amount, amount); // number
+    setText(data.slice(0, amount));
   };
 
   return (
     <section className="section-center">
       <h4>tired of boring lorem ipsum? </h4>
       <form className="lorem-form" onSubmit={handleText}>
-        <label htmlFor="">paragraphs</label>
+        <label htmlFor="amount">paragraphs</label>
         <input
           type="number"
-          name="count"
-          id="count"
+          name="amount"
+          id="amount"
           min={1}
           max={8}
           step={1}
@@ -30,14 +35,11 @@ const App = () => {
           Generate
         </button>
       </form>
-      <div className="lorem-text">
-        {text.map((para, index) => (
-          <p key={index + 1}>
-            <span>{index + 1}. </span>
-            {para}
-          </p>
-        ))}
-      </div>
+      <article className="lorem-text">
+        {text.map((item) => {
+          return <p key={nanoid()}>{item}</p>;
+        })}
+      </article>
     </section>
   );
 };
